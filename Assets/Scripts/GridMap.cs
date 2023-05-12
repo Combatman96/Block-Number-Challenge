@@ -1,0 +1,96 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GridMap : MonoBehaviour
+{
+    private Dictionary<Vector2Int, Node> m_map = new Dictionary<Vector2Int, Node>();
+
+    public void DoStart()
+    {
+        //Init grid map 
+        var nodes = GetComponentsInChildren<Node>();
+        foreach (var node in nodes)
+        {
+            node.DoStart();
+            m_map.Add(node.coordinate, node);
+        }
+    }
+
+    public void Spawn(Node root, Node end)
+    {
+        if (root.coordinate.x != end.coordinate.x && root.coordinate.y != end.coordinate.y)
+            return;
+        if (root.rootNumber == 0)
+            return;
+        Vector2 dir = end.coordinate - root.coordinate;
+        if (dir.normalized == Vector2.up)
+        {
+            SpawnUp(root, end);
+        }
+        if (dir.normalized == Vector2.down)
+        {
+            SpawnDown(root, end);
+        }
+        if (dir.normalized == Vector2.left)
+        {
+            SpawnLeft(root, end);
+        }
+        if (dir.normalized == Vector2.right)
+        {
+            SpawnRight(root, end);
+        }
+    }
+
+    private void SpawnUp(Node root, Node end)
+    {
+        for (int i = root.coordinate.y + 1; i <= end.coordinate.y; ++i)
+        {
+            var node = m_map[new Vector2Int(root.coordinate.x, i)];
+            if (node.IsMark()) break;
+            node.SetRootCoordinate(root.coordinate);
+            root.rootNumber--;
+            root.UpdateRootNumber();
+            if (root.rootNumber == 0) break;
+        }
+    }
+
+    private void SpawnDown(Node root, Node end)
+    {
+        for (int i = root.coordinate.y - 1; i >= end.coordinate.y; --i)
+        {
+            var node = m_map[new Vector2Int(root.coordinate.x, i)];
+            if (node.IsMark()) break;
+            node.SetRootCoordinate(root.coordinate);
+            root.rootNumber--;
+            root.UpdateRootNumber();
+            if (root.rootNumber == 0) break;
+        }
+    }
+
+    private void SpawnLeft(Node root, Node end)
+    {
+        for (int i = root.coordinate.x - 1; i >= end.coordinate.x; --i)
+        {
+            var node = m_map[new Vector2Int(i, root.coordinate.y)];
+            if (node.IsMark()) break;
+            node.SetRootCoordinate(root.coordinate);
+            root.rootNumber--;
+            root.UpdateRootNumber();
+            if (root.rootNumber == 0) break;
+        }
+    }
+
+    private void SpawnRight(Node root, Node end)
+    {
+        for (int i = root.coordinate.x + 1; i <= end.coordinate.x; ++i)
+        {
+            var node = m_map[new Vector2Int(i, root.coordinate.y)];
+            if (node.IsMark()) break;
+            node.SetRootCoordinate(root.coordinate);
+            root.rootNumber--;
+            root.UpdateRootNumber();
+            if (root.rootNumber == 0) break;
+        }
+    }
+}
