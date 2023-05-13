@@ -49,6 +49,7 @@ MonoBehaviour:
   coordinate: {x: 0, y: 0}
   m_marking: {fileID: 7141919338617671397}
   rootNumber: 0
+  rootColor: 0
 --- !u!65 &8730990394251518308
 BoxCollider:
   m_ObjectHideFlags: 0
