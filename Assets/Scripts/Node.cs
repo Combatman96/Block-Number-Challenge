@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class Node : MonoBehaviour
 {
@@ -93,7 +94,7 @@ public class Node : MonoBehaviour
         return m_rootCoordinate;
     }
 
-    public void Spawn(Vector2Int rootCoord, ColorName color, Vector2Int direction)
+    public async Task Spawn(Vector2Int rootCoord, ColorName color, Vector2Int direction)
     {
         //TODO: Set texture, materials and play animation 
         SetRootCoordinate(rootCoord);
@@ -104,5 +105,7 @@ public class Node : MonoBehaviour
         Material mat = colorConfig.GetMaterial(color, index);
         m_marking.SetMaterial(mat);
         m_marking.PlayAnimation(Marking.s_open, direction);
+
+        await Task.Delay((int)(0.05 * 1000));
     }
 }
