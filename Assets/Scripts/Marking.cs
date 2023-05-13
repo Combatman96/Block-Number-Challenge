@@ -31,4 +31,14 @@ public class Marking : MonoBehaviour
         m_root.right = direction;
         m_animator.CrossFade(state, 0f, 0);
     }
+
+    public void PlayAnimation(int state)
+    {
+        m_animator.CrossFade(state, 0f, 0);
+    }
+
+    public Vector2Int GetSpawnDirection()
+    {
+        return new Vector2Int((int)m_root.right.x, (int)m_root.right.y);
+    }
 }

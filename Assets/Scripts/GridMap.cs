@@ -47,6 +47,7 @@ public class GridMap : MonoBehaviour
         int i = 0;
         for (i = root.coordinate.y + 1; i <= end.coordinate.y; ++i)
         {
+            if (root.rootNumber == 0) break;
             var node = m_map[new Vector2Int(root.coordinate.x, i)];
             if (node.IsMark())
             {
@@ -55,10 +56,10 @@ public class GridMap : MonoBehaviour
                 else
                     break;
             }
-            await node.Spawn(root.coordinate, root.rootColor, Vector2Int.up);
+            node.SetIsEnd(false);
+            await node.SpawnAsync(root.coordinate, root.rootColor, Vector2Int.up);
             root.rootNumber--;
             root.UpdateRootNumber();
-            if (root.rootNumber == 0) break;
         }
         m_map[new Vector2Int(root.coordinate.x, i - 1)].SetIsEnd(true);
     }
@@ -68,6 +69,7 @@ public class GridMap : MonoBehaviour
         int i = 0;
         for (i = root.coordinate.y - 1; i >= end.coordinate.y; --i)
         {
+            if (root.rootNumber == 0) break;
             var node = m_map[new Vector2Int(root.coordinate.x, i)];
             if (node.IsMark())
             {
@@ -76,10 +78,10 @@ public class GridMap : MonoBehaviour
                 else
                     break;
             }
-            await node.Spawn(root.coordinate, root.rootColor, Vector2Int.down);
+            node.SetIsEnd(false);
+            await node.SpawnAsync(root.coordinate, root.rootColor, Vector2Int.down);
             root.rootNumber--;
             root.UpdateRootNumber();
-            if (root.rootNumber == 0) break;
         }
         m_map[new Vector2Int(root.coordinate.x, i + 1)].SetIsEnd(true);
     }
@@ -89,6 +91,7 @@ public class GridMap : MonoBehaviour
         int i = 0;
         for (i = root.coordinate.x - 1; i >= end.coordinate.x; --i)
         {
+            if (root.rootNumber == 0) break;
             var node = m_map[new Vector2Int(i, root.coordinate.y)];
             if (node.IsMark())
             {
@@ -97,10 +100,10 @@ public class GridMap : MonoBehaviour
                 else
                     break;
             }
-            await node.Spawn(root.coordinate, root.rootColor, Vector2Int.left);
+            node.SetIsEnd(false);
+            await node.SpawnAsync(root.coordinate, root.rootColor, Vector2Int.left);
             root.rootNumber--;
             root.UpdateRootNumber();
-            if (root.rootNumber == 0) break;
         }
         m_map[new Vector2Int(i + 1, root.coordinate.y)].SetIsEnd(true);
     }
@@ -110,6 +113,7 @@ public class GridMap : MonoBehaviour
         int i = 0;
         for (i = root.coordinate.x + 1; i <= end.coordinate.x; ++i)
         {
+            if (root.rootNumber == 0) break;
             var node = m_map[new Vector2Int(i, root.coordinate.y)];
             if (node.IsMark())
             {
@@ -118,11 +122,21 @@ public class GridMap : MonoBehaviour
                 else
                     break;
             }
-            await node.Spawn(root.coordinate, root.rootColor, Vector2Int.right);
+            node.SetIsEnd(false);
+            await node.SpawnAsync(root.coordinate, root.rootColor, Vector2Int.right);
             root.rootNumber--;
             root.UpdateRootNumber();
-            if (root.rootNumber == 0) break;
         }
         m_map[new Vector2Int(i - 1, root.coordinate.y)].SetIsEnd(true);
+    }
+
+    public void Despawn(Node node)
+    {
+        var linkNode = m_map[node.GetLinkNodeCoord()];
+        var root = m_map[node.GetRootCoordinate()];
+        linkNode.SetIsEnd(!linkNode.IsRoot());
+        node.Despawn();
+        root.rootNumber++;
+        root.UpdateRootNumber();
     }
 }

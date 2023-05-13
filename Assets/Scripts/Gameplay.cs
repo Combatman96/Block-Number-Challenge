@@ -30,7 +30,14 @@ public class Gameplay : MonoBehaviour
             if (isHit)
             {
                 var node = hit.transform.GetComponent<Node>();
-                m_rootNode = (node.IsRoot()) ? node : null;
+                if (node.IsRoot())
+                {
+                    m_rootNode = node;
+                }
+                else if (node.IsEnd())
+                {
+                    m_gridMap.Despawn(node);
+                }
             }
         }
         if (Input.GetMouseButtonUp(0) && m_rootNode)

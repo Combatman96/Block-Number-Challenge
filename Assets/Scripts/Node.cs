@@ -1,13 +1,14 @@
 using UnityEngine;
 using System.Threading.Tasks;
+using System.Collections;
 
 public class Node : MonoBehaviour
 {
     public Vector2Int coordinate;
     [SerializeField] private Marking m_marking;
     public int rootNumber = 0;
-    private bool m_isRoot = false;
-    private bool m_isEnd = false;
+    [SerializeField] private bool m_isRoot = false;
+    [SerializeField] private bool m_isEnd = false;
 
     private Vector2Int m_rootCoordinate;
     public ColorName rootColor;
@@ -94,18 +95,38 @@ public class Node : MonoBehaviour
         return m_rootCoordinate;
     }
 
-    public async Task Spawn(Vector2Int rootCoord, ColorName color, Vector2Int direction)
+    public async Task SpawnAsync(Vector2Int rootCoord, ColorName color, Vector2Int direction)
     {
         //TODO: Set texture, materials and play animation 
         SetRootCoordinate(rootCoord);
         ShowMarking(true);
         var colorConfig = m_gameplay.colorConfig;
         int index = (rootCoord.x - coordinate.x != 0) ? Mathf.Abs(rootCoord.x - coordinate.x) : Mathf.Abs(rootCoord.y - coordinate.y);
-        Debug.Log(color.ToString() + index);
         Material mat = colorConfig.GetMaterial(color, index);
         m_marking.SetMaterial(mat);
         m_marking.PlayAnimation(Marking.s_open, direction);
 
-        await Task.Delay((int)(0.05 * 1000));
+        await Task.Delay(100);
     }
+
+    public Vector2Int GetLinkNodeCoord()
+    {
+        Vector2Int foldDir = m_marking.GetSpawnDirection();
+        return coordinate - foldDir;
+    }
+
+    public void Despawn()
+    {
+        m_rootCoordinate = new Vector2Int(-9, -9);
+        m_isEnd = false;
+        m_marking.PlayAnimation(Marking.s_close);
+        StartCoroutine(SetMarkingAfter(false, 0.1f));
+    }
+
+    IEnumerator SetMarkingAfter(bool visible, float time)
+    {
+        yield return new WaitForSeconds(time);
+        ShowMarking(visible);
+    }
+
 }
