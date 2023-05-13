@@ -31,6 +31,7 @@ public class Node : MonoBehaviour
         m_isRoot = (rootNumber > 0);
         ShowMarking(m_isRoot);
         if (m_isRoot) m_marking.SetNumber(rootNumber);
+        else m_marking.SetNumVisible(false);
 
         var colorConfig = m_gameplay.colorConfig;
         Material rootMat = colorConfig.GetMaterial(rootColor, 0);
@@ -45,8 +46,8 @@ public class Node : MonoBehaviour
 
     private void ShowMarking(bool visible)
     {
-        m_marking.gameObject.SetActive(visible);
 
+        m_marking.gameObject.SetActive(visible);
     }
 
     public bool IsMark()
@@ -92,7 +93,7 @@ public class Node : MonoBehaviour
         return m_rootCoordinate;
     }
 
-    public void Spawn(Vector2Int rootCoord, ColorName color)
+    public void Spawn(Vector2Int rootCoord, ColorName color, Vector2Int direction)
     {
         //TODO: Set texture, materials and play animation 
         SetRootCoordinate(rootCoord);
@@ -102,5 +103,6 @@ public class Node : MonoBehaviour
         Debug.Log(color.ToString() + index);
         Material mat = colorConfig.GetMaterial(color, index);
         m_marking.SetMaterial(mat);
+        m_marking.PlayAnimation(Marking.s_open, direction);
     }
 }
