@@ -44,53 +44,85 @@ public class GridMap : MonoBehaviour
 
     private void SpawnUp(Node root, Node end)
     {
-        for (int i = root.coordinate.y + 1; i <= end.coordinate.y; ++i)
+        int i = 0;
+        for (i = root.coordinate.y + 1; i <= end.coordinate.y; ++i)
         {
             var node = m_map[new Vector2Int(root.coordinate.x, i)];
-            if (node.IsMark()) break;
+            if (node.IsMark())
+            {
+                if (node.GetRootCoordinate() == root.coordinate)
+                    continue;
+                else
+                    break;
+            }
             node.SetRootCoordinate(root.coordinate);
             root.rootNumber--;
             root.UpdateRootNumber();
             if (root.rootNumber == 0) break;
         }
+        m_map[new Vector2Int(root.coordinate.x, i - 1)].SetIsEnd(true);
     }
 
     private void SpawnDown(Node root, Node end)
     {
-        for (int i = root.coordinate.y - 1; i >= end.coordinate.y; --i)
+        int i = 0;
+        for (i = root.coordinate.y - 1; i >= end.coordinate.y; --i)
         {
             var node = m_map[new Vector2Int(root.coordinate.x, i)];
-            if (node.IsMark()) break;
+            if (node.IsMark())
+            {
+                if (node.GetRootCoordinate() == root.coordinate)
+                    continue;
+                else
+                    break;
+            }
             node.SetRootCoordinate(root.coordinate);
             root.rootNumber--;
             root.UpdateRootNumber();
             if (root.rootNumber == 0) break;
         }
+        m_map[new Vector2Int(root.coordinate.x, i + 1)].SetIsEnd(true);
     }
 
     private void SpawnLeft(Node root, Node end)
     {
-        for (int i = root.coordinate.x - 1; i >= end.coordinate.x; --i)
+        int i = 0;
+        for (i = root.coordinate.x - 1; i >= end.coordinate.x; --i)
         {
             var node = m_map[new Vector2Int(i, root.coordinate.y)];
-            if (node.IsMark()) break;
+            if (node.IsMark())
+            {
+                if (node.GetRootCoordinate() == root.coordinate)
+                    continue;
+                else
+                    break;
+            }
             node.SetRootCoordinate(root.coordinate);
             root.rootNumber--;
             root.UpdateRootNumber();
             if (root.rootNumber == 0) break;
         }
+        m_map[new Vector2Int(i + 1, root.coordinate.y)].SetIsEnd(true);
     }
 
     private void SpawnRight(Node root, Node end)
     {
-        for (int i = root.coordinate.x + 1; i <= end.coordinate.x; ++i)
+        int i = 0;
+        for (i = root.coordinate.x + 1; i <= end.coordinate.x; ++i)
         {
             var node = m_map[new Vector2Int(i, root.coordinate.y)];
-            if (node.IsMark()) break;
+            if (node.IsMark())
+            {
+                if (node.GetRootCoordinate() == root.coordinate)
+                    continue;
+                else
+                    break;
+            }
             node.SetRootCoordinate(root.coordinate);
             root.rootNumber--;
             root.UpdateRootNumber();
             if (root.rootNumber == 0) break;
         }
+        m_map[new Vector2Int(i - 1, root.coordinate.y)].SetIsEnd(true);
     }
 }

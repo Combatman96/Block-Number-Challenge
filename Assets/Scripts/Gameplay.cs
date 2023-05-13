@@ -26,7 +26,8 @@ public class Gameplay : MonoBehaviour
             bool isHit = Physics.Raycast(ray, out hit, 1000f, m_nodeLayerMask);
             if (isHit)
             {
-                m_rootNode = hit.transform.GetComponent<Node>();
+                var node = hit.transform.GetComponent<Node>();
+                m_rootNode = (node.IsRoot()) ? node : null;
             }
         }
         if (Input.GetMouseButtonUp(0) && m_rootNode)

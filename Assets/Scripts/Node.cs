@@ -8,8 +8,9 @@ public class Node : MonoBehaviour
     [SerializeField] private Marking m_marking;
     public int rootNumber = 0;
     private bool m_isRoot = false;
+    private bool m_isEnd = false;
 
-    private Vector2Int rootCoordinate;
+    private Vector2Int m_rootCoordinate;
 
     public bool IsRoot()
     {
@@ -21,6 +22,7 @@ public class Node : MonoBehaviour
         m_isRoot = (rootNumber > 0);
         ShowMarking(m_isRoot);
         if (m_isRoot) m_marking.SetNumber(rootNumber);
+        m_rootCoordinate = new Vector2Int(-9, -9);
     }
 
     private void ShowMarking(bool visible)
@@ -36,12 +38,39 @@ public class Node : MonoBehaviour
 
     public void SetRootCoordinate(Vector2Int coord)
     {
-        rootCoordinate = coord;
+        m_rootCoordinate = coord;
         ShowMarking(true);
     }
 
     public void UpdateRootNumber()
     {
         m_marking.SetNumber(rootNumber);
+    }
+
+    public bool IsLink()
+    {
+        return !(m_isRoot || m_isEnd);
+    }
+
+    public void SetIsEnd(bool isEnd)
+    {
+        m_isEnd = isEnd;
+    }
+
+    public bool IsEnd()
+    {
+        return m_isEnd;
+    }
+
+    public void Unmark()
+    {
+        m_isEnd = false;
+        ShowMarking(false);
+        m_rootCoordinate = new Vector2Int(-9, -9);
+    }
+
+    public Vector2Int GetRootCoordinate()
+    {
+        return m_rootCoordinate;
     }
 }
