@@ -10,6 +10,8 @@ public class Gameplay : MonoBehaviour
     private Node m_rootNode;
     private Node m_endNode;
 
+    public ColorConfig colorConfig;
+
     // Start is called before the first frame update
     void Start()
     {

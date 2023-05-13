@@ -55,7 +55,7 @@ public class GridMap : MonoBehaviour
                 else
                     break;
             }
-            node.SetRootCoordinate(root.coordinate);
+            node.Spawn(root.coordinate, root.rootColor);
             root.rootNumber--;
             root.UpdateRootNumber();
             if (root.rootNumber == 0) break;
@@ -76,7 +76,7 @@ public class GridMap : MonoBehaviour
                 else
                     break;
             }
-            node.SetRootCoordinate(root.coordinate);
+            node.Spawn(root.coordinate, root.rootColor);
             root.rootNumber--;
             root.UpdateRootNumber();
             if (root.rootNumber == 0) break;
@@ -97,7 +97,7 @@ public class GridMap : MonoBehaviour
                 else
                     break;
             }
-            node.SetRootCoordinate(root.coordinate);
+            node.Spawn(root.coordinate, root.rootColor);
             root.rootNumber--;
             root.UpdateRootNumber();
             if (root.rootNumber == 0) break;
@@ -118,7 +118,7 @@ public class GridMap : MonoBehaviour
                 else
                     break;
             }
-            node.SetRootCoordinate(root.coordinate);
+            node.Spawn(root.coordinate, root.rootColor);
             root.rootNumber--;
             root.UpdateRootNumber();
             if (root.rootNumber == 0) break;

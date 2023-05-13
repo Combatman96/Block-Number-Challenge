@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Node : MonoBehaviour
@@ -11,6 +9,9 @@ public class Node : MonoBehaviour
     private bool m_isEnd = false;
 
     private Vector2Int m_rootCoordinate;
+    public ColorName rootColor;
+
+    private Gameplay m_gameplay => FindObjectOfType<Gameplay>();
 
     public bool IsRoot()
     {
@@ -23,6 +24,9 @@ public class Node : MonoBehaviour
         ShowMarking(m_isRoot);
         if (m_isRoot) m_marking.SetNumber(rootNumber);
         m_rootCoordinate = new Vector2Int(-9, -9);
+        var colorConfig = m_gameplay.colorConfig;
+        Material rootMat = colorConfig.GetMaterial(rootColor, 0);
+        m_marking.SetMaterial(rootMat);
     }
 
     private void ShowMarking(bool visible)
@@ -39,7 +43,6 @@ public class Node : MonoBehaviour
     public void SetRootCoordinate(Vector2Int coord)
     {
         m_rootCoordinate = coord;
-        ShowMarking(true);
     }
 
     public void UpdateRootNumber()
@@ -72,5 +75,17 @@ public class Node : MonoBehaviour
     public Vector2Int GetRootCoordinate()
     {
         return m_rootCoordinate;
+    }
+
+    public void Spawn(Vector2Int rootCoord, ColorName color)
+    {
+        //TODO: Set texture, materials and play animation 
+        SetRootCoordinate(rootCoord);
+        ShowMarking(true);
+        var colorConfig = m_gameplay.colorConfig;
+        int index = (rootCoord.x - coordinate.x != 0) ? Mathf.Abs(rootCoord.x - coordinate.x) : Mathf.Abs(rootCoord.y - coordinate.y);
+        Debug.Log(color.ToString() + index);
+        Material mat = colorConfig.GetMaterial(color, index);
+        m_marking.SetMaterial(mat);
     }
 }
