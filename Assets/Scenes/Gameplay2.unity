@@ -458,9 +458,5 @@ PrefabInstance:
       propertyPath: m_gridMap
       value: 
       objectReference: {fileID: 957665487745082268}
-    - target: {fileID: 7517910573987855987, guid: 74e007ff4a6289b4d89d1a9949ab5f4a, type: 3}
-      propertyPath: levelConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: 3f8cdb4d4d7b4ef4fabe6c290e8f25b0, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74e007ff4a6289b4d89d1a9949ab5f4a, type: 3}

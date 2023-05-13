@@ -20,13 +20,27 @@ public class Node : MonoBehaviour
 
     public void DoStart()
     {
+        Unmark();
+        var levelConfig = m_gameplay.levelConfig;
+        var data = levelConfig.GetRootData(coordinate);
+        if (data != null)
+        {
+            Init(data);
+        }
+
         m_isRoot = (rootNumber > 0);
         ShowMarking(m_isRoot);
         if (m_isRoot) m_marking.SetNumber(rootNumber);
-        m_rootCoordinate = new Vector2Int(-9, -9);
+
         var colorConfig = m_gameplay.colorConfig;
         Material rootMat = colorConfig.GetMaterial(rootColor, 0);
         m_marking.SetMaterial(rootMat);
+    }
+
+    private void Init(RootData data)
+    {
+        rootNumber = data.number;
+        rootColor = data.color;
     }
 
     private void ShowMarking(bool visible)
@@ -67,6 +81,7 @@ public class Node : MonoBehaviour
 
     public void Unmark()
     {
+        rootNumber = 0;
         m_isEnd = false;
         ShowMarking(false);
         m_rootCoordinate = new Vector2Int(-9, -9);

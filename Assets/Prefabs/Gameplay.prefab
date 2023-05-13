@@ -48,3 +48,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   colorConfig: {fileID: 11400000, guid: a5c717c95aad459428a4882cd31b03a5, type: 2}
+  levelConfig: {fileID: 11400000, guid: 3f8cdb4d4d7b4ef4fabe6c290e8f25b0, type: 2}
