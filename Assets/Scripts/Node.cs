@@ -32,7 +32,11 @@ public class Node : MonoBehaviour
 
         m_isRoot = (rootNumber > 0);
         ShowMarking(m_isRoot);
-        if (m_isRoot) m_marking.SetNumber(rootNumber);
+        if (m_isRoot)
+        {
+            m_marking.SetNumber(rootNumber);
+            SetCenterMarking(new[] { false, false, false, false });
+        }
         else m_marking.SetNumVisible(false);
 
         var colorConfig = m_gameplay.colorConfig;
@@ -75,6 +79,7 @@ public class Node : MonoBehaviour
     public void SetIsEnd(bool isEnd)
     {
         m_isEnd = isEnd;
+        m_marking.SetNonRootSprite(m_isEnd);
     }
 
     public bool IsEnd()
@@ -97,9 +102,9 @@ public class Node : MonoBehaviour
 
     public async Task SpawnAsync(Vector2Int rootCoord, ColorName color, Vector2Int direction)
     {
-        //TODO: Set texture, materials and play animation 
         SetRootCoordinate(rootCoord);
         ShowMarking(true);
+
         var colorConfig = m_gameplay.colorConfig;
         int index = (rootCoord.x - coordinate.x != 0) ? Mathf.Abs(rootCoord.x - coordinate.x) : Mathf.Abs(rootCoord.y - coordinate.y);
         Material mat = colorConfig.GetMaterial(color, index);
@@ -127,6 +132,16 @@ public class Node : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         ShowMarking(visible);
+    }
+
+    public void SetCenterMarking(bool[] direcions)
+    {
+        m_marking.SetCenterSprite(direcions[0], direcions[1], direcions[2], direcions[3]);
+    }
+
+    public void SetCenterMarking(Vector2Int direction)
+    {
+        m_marking.SetCenterSprite(direction);
     }
 
 }
